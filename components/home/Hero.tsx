@@ -12,7 +12,7 @@ const Hero = () => {
         </h1>
         <p className="mt-8 max-w-xl text-lg leading-8 text-muted-foreground">
           From discovering your new favorite item to unboxing it at your door,
-          we've designed every step to be seamless and inspiring. Experience a
+          we have designed every step to be seamless and inspiring. Experience a
           smarter, simpler, and more enjoyable way to get the products you love
         </p>
         <Button asChild size="lg" className="mt-10">
