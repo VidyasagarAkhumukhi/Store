@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,28 +7,29 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-const BreadCrumbs = ({ name }: { name: string }) => {
+function BreadCrumbs({ name }: { name: string }) {
   return (
     <Breadcrumb>
-      <BreadcrumbLink>
+      <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="/" className="capitalize text-lg">
-            Home
+            home
           </BreadcrumbLink>
         </BreadcrumbItem>
+
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/Product" className="capitalize text-lg">
-            Products
+          <BreadcrumbLink href="/products" className="capitalize text-lg">
+            products
           </BreadcrumbLink>
         </BreadcrumbItem>
+
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <BreadcrumbPage className="capitalize text-lg">{name}</BreadcrumbPage>
         </BreadcrumbItem>
-      </BreadcrumbLink>
+      </BreadcrumbList>
     </Breadcrumb>
   );
-};
-
+}
 export default BreadCrumbs;
