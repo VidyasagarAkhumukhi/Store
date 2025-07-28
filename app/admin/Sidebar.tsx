@@ -19,7 +19,9 @@ function Sidebar() {
             className="w-full mb-2 capitalize font-normal justify-start"
             variant={variant}
           >
-            <Link href={link.href}>{link.label}</Link>
+            <Link key={link.href} href={link.href}>
+              {link.label}
+            </Link>
           </Button>
         );
       })}
