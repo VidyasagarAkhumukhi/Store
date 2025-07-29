@@ -1,9 +1,11 @@
-'use server'
+"use server";
 
-import db from '@/utils/db'
-import { redirect } from 'next/navigation'
+import db from "@/utils/db";
+import { redirect } from "next/navigation";
 
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { imageSchema, productSchema, validateWithZodSchema } from "./schemas";
+import { uploadImage } from "./supabase";
 
 const renderError = (error: unknown): { message: string } => {
   console.log(error);
@@ -20,30 +22,33 @@ const getAuthUser = async () => {
   return user;
 };
 
-export const fetchFeaturedProducts = async() =>{
-    const products = await db.product.findMany({
-        where:{
-            featured: true,
-        },
+export const fetchFeaturedProducts = async () => {
+  const products = await db.product.findMany({
+    where: {
+      featured: true,
+    },
+  });
 
-    })
-    
-    return products
-}
+  return products;
+};
 
-export const fetchAllProducts = async({search = ' '}:{search: string}) =>{
-    return await db.product.findMany({
-        where: {
-            OR:[
-                    {name: {contains:search, mode:'insensitive'}},
-                    {company: {contains:search, mode:'insensitive'}},
-                ],
-        },
-        orderBy:{
-            createdAt: 'desc'
-        }
-    })    
-}
+export const fetchAllProducts = async ({
+  search = " ",
+}: {
+  search: string;
+}) => {
+  return await db.product.findMany({
+    where: {
+      OR: [
+        { name: { contains: search, mode: "insensitive" } },
+        { company: { contains: search, mode: "insensitive" } },
+      ],
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+};
 
 export const fetchSingleProduct = async (productId: string) => {
   const product = await db.product.findUnique({
@@ -57,6 +62,7 @@ export const fetchSingleProduct = async (productId: string) => {
   return product;
 };
 
+// Validating the products created using zodSchema
 export const createProductAction = async (
   prevState: any,
   formData: FormData
@@ -64,26 +70,21 @@ export const createProductAction = async (
   const user = await getAuthUser();
 
   try {
-    const name = formData.get("name") as string;
-    const company = formData.get("company") as string;
-    const price = Number(formData.get("price") as string);
-    const image = formData.get("image") as File;
-    const description = formData.get("description") as string;
-    const featured = Boolean(formData.get("featured") as string);
+    const rawData = Object.fromEntries(formData);
+    const file = formData.get("image") as File;
+    const validatedFields = validateWithZodSchema(productSchema, rawData);
+    const validatedFile = validateWithZodSchema(imageSchema, { image: file });
+    const fullPath = await uploadImage(validatedFile.image);
 
     await db.product.create({
       data: {
-        name,
-        company,
-        price,
-        image: "/images/product-1.jpg",
-        description,
-        featured,
+        ...validatedFields,
+        image: fullPath,
         clerkId: user.id,
       },
     });
-    return { message: "product created" };
   } catch (error) {
     return renderError(error);
   }
+  redirect("/admin/products");
 };
