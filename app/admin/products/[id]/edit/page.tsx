@@ -11,21 +11,14 @@ import { SubmitButton } from "@/components/form/Buttons";
 import CheckboxInput from "@/components/form/CheckboxInput";
 import ImageInputContainer from "@/components/form/ImageInputContainer";
 
-type EditProductPageProps = {
-  params: {
-    id: string | string[];
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-// @ts-expect-error This directive is required to bypass a temporary bug
-// in Next.js 15 and React 19 RC where types are mismatched.
-async function EditProductPage({ params }: EditProductPageProps) {
-  // Since our route is [id], we know 'id' will be a string.
-  const id = Array.isArray(params.id) ? params.id[0] : params.id;
+async function EditProductPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const product = await fetchAdminProductDetails(id);
   const { name, company, description, featured, price } = product;
-
   return (
     <section>
       <h1 className="text-2xl font-semibold mb-8 capitalize">update product</h1>
