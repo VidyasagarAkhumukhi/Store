@@ -12,14 +12,11 @@ import { SubmitButton } from "@/components/form/Buttons";
 import CheckboxInput from "@/components/form/CheckboxInput";
 import ImageInputContainer from "@/components/form/ImageInputContainer";
 
-type EditProductPageProps = {
-  params: {
-    id: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-async function EditProductPage({ params }: EditProductPageProps) {
+export default async function EditProductPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id } = params;
   const product = await fetchAdminProductDetails(id);
   const { name, company, description, featured, price } = product;
@@ -72,4 +69,3 @@ async function EditProductPage({ params }: EditProductPageProps) {
     </section>
   );
 }
-export default EditProductPage;
