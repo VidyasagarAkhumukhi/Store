@@ -18,9 +18,8 @@ type EditProductPageProps = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-// @ts-expect-error - This is a temporary workaround for a bug in Next.js 15 + React 19 RC
-// where the internal PageProps type is incorrectly causing a build failure.
-// See the Vercel conversation for more details.
+// @ts-expect-error This directive is required to bypass a temporary bug
+// in Next.js 15 and React 19 RC where types are mismatched.
 async function EditProductPage({ params }: EditProductPageProps) {
   // Since our route is [id], we know 'id' will be a string.
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
