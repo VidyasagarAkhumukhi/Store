@@ -1,4 +1,3 @@
-import React from "react";
 import {
   fetchAdminProductDetails,
   updateProductAction,
@@ -12,18 +11,20 @@ import { SubmitButton } from "@/components/form/Buttons";
 import CheckboxInput from "@/components/form/CheckboxInput";
 import ImageInputContainer from "@/components/form/ImageInputContainer";
 
-// Define a complete type for the page props
+// FIX: Update the 'id' type to be more generic to match Next.js 15's expectation.
 type EditProductPageProps = {
   params: {
-    id: string;
+    id: string | string[];
   };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
 async function EditProductPage({ params }: EditProductPageProps) {
-  const { id } = params;
+  // Since our route is [id], we know 'id' will be a string.
+  const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const product = await fetchAdminProductDetails(id);
   const { name, company, description, featured, price } = product;
+
   return (
     <section>
       <h1 className="text-2xl font-semibold mb-8 capitalize">update product</h1>
