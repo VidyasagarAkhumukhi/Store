@@ -56,19 +56,15 @@ This is a full-stack e-commerce application built with the **Next.js 15+ App Rou
 <!-- Add your screenshots here. It's highly recommended to showcase the key features of your application. -->
 
 **Homepage**  
-_Attach a screenshot of your homepage here._
 
 **Products Page**  
-_Attach a screenshot of the products page, perhaps showing both grid and list layouts._
 
 **Single Product Page**  
-_Attach a screenshot of a single product's detail page._
 
 **Admin Dashboard - Products**  
-_Attach a screenshot of the admin dashboard showing the product management table._
 
 **Cart Page**  
-_Attach a screenshot of the shopping cart._
+
 
 ---
 
